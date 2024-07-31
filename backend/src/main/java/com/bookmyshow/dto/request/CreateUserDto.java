@@ -2,7 +2,7 @@ package com.bookmyshow.dto.request;
 
 import lombok.Data;
 
-public @Data class CreateUsersDto {
+public @Data class CreateUserDto {
 
     private String firstName;
 

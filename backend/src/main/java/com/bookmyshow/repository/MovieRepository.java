@@ -25,6 +25,9 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
     @Query(value = "delete from movies", nativeQuery = true)
     void deleteAll(Long id);
 
+
+
+
 //
 //
 //

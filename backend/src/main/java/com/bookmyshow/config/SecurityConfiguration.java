@@ -26,7 +26,7 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .authorizeHttpRequests(
-                        request -> request.requestMatchers("/movies/**")
+                        request -> request.requestMatchers("/movies/**","/users/**","/theatre/**")
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())

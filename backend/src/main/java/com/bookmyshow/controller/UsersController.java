@@ -1,6 +1,6 @@
 package com.bookmyshow.controller;
 
-import com.bookmyshow.dto.request.CreateUsersDto;
+import com.bookmyshow.dto.request.CreateUserDto;
 import com.bookmyshow.dto.request.UpdateUsersDto;
 import com.bookmyshow.dto.response.UsersResponseDto;
 import com.bookmyshow.entity.Users;
@@ -25,12 +25,18 @@ public class UsersController {
     }
 
     @PostMapping
-    public ResponseEntity<UsersResponseDto> createUsers(@RequestBody CreateUsersDto createUsersDto) {
-        Users user = usersService.createUsers(createUsersDto);
+    public ResponseEntity<UsersResponseDto> createUsers(@RequestBody CreateUserDto createUserDto) {
+        Users user = usersService.createUser(createUserDto);
         UsersResponseDto usersResponseDto = new UsersResponseDto(user);
         return ResponseEntity.ok(usersResponseDto);
     }
 
+    @PostMapping("/multiple")
+    public ResponseEntity<List<UsersResponseDto>> createMultipleUsers(@RequestBody List<CreateUserDto> createUserDtos) {
+        List<Users> users = usersService.createUsers(createUserDtos);
+        List<UsersResponseDto> usersResponseDtos = UsersResponseDto.toList(users);
+        return ResponseEntity.ok(usersResponseDtos);
+    }
 
     @PatchMapping("/{id}")
     public ResponseEntity<UsersResponseDto> updateUsers(@PathVariable(name = "id") Long id, @RequestBody UpdateUsersDto updateUsersDto) {

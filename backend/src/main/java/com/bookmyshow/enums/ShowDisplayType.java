@@ -1,6 +1,5 @@
 package com.bookmyshow.enums;
 
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum ShowDisplayType {

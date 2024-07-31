@@ -27,9 +27,8 @@ public class MovieController {
         return ResponseEntity.ok(MovieResponseDto.toList(movies));
     }
     @GetMapping("/fetch/{id}")
-    public ResponseEntity<List<MovieResponseDto>> getMovieById(@PathVariable Long id) {
-        List<Movie> movies = Collections.singletonList(movieService.getMovieById(id));
-        return ResponseEntity.ok(MovieResponseDto.toList(movies));
+    public ResponseEntity<MovieResponseDto> getMovieById(@PathVariable Long id) {
+        return ResponseEntity.ok(new MovieResponseDto(movieService.getMovieById(id)));
 
     }
     @PostMapping

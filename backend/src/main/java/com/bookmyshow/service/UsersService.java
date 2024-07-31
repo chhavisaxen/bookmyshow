@@ -1,7 +1,6 @@
 package com.bookmyshow.service;
 
-import com.bookmyshow.dto.request.CreateMovieDto;
-import com.bookmyshow.dto.request.CreateUsersDto;
+import com.bookmyshow.dto.request.CreateUserDto;
 import com.bookmyshow.dto.request.UpdateUsersDto;
 import com.bookmyshow.entity.Users;
 import com.bookmyshow.repository.UsersRepository;
@@ -10,7 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -23,16 +25,33 @@ public class UsersService {
         return usersRepository.findAll();
     }
 
-    public Users createUsers(CreateUsersDto createUsersDto) {
-        Users user = new Users();
-        user.setFirstName(createUsersDto.getFirstName());
-        user.setLastName(createUsersDto.getLastName());
-        user.setEmail(createUsersDto.getEmail());
-        user.setAge(createUsersDto.getAge());
-        user.setPassword(BCrypt.hashpw(createUsersDto.getPassword(), BCrypt.gensalt(10)));
-        user.setPhone(createUsersDto.getPhone());
+    public List<Users> createUsers(List<CreateUserDto> createUserDtos) {
+        List<Users> usersResult = new ArrayList<>();
+        for (CreateUserDto createUserDto : createUserDtos) {
 
+            Users user = buildUserObject(createUserDto);
+
+            usersResult.add(user);
+        }
+        return  usersRepository.saveAll(usersResult);
+    }
+
+    public Users createUser(CreateUserDto createUserDto) {
+        Users user = buildUserObject(createUserDto);
         return usersRepository.save(user);
+    }
+
+    public Users buildUserObject(CreateUserDto createUserDto) {
+        Users user = new Users();
+        user.setFirstName(createUserDto.getFirstName());
+        user.setLastName(createUserDto.getLastName());
+        user.setEmail(createUserDto.getEmail());
+        user.setAge(createUserDto.getAge());
+        user.setGender(createUserDto.getGender());
+        user.setPassword(BCrypt.hashpw(createUserDto.getPassword(), BCrypt.gensalt(10)));
+        user.setPhone(createUserDto.getPhone());
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        return user;
     }
 
     public Users updateUsers(Long id, UpdateUsersDto updateUsersDto) {

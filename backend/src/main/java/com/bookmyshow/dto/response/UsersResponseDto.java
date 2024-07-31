@@ -29,11 +29,12 @@ public @Data class UsersResponseDto {
 
     public UsersResponseDto(Users users) {
         this.id = users.getId();
-        this.first_name = users.getFirst_name();
-        this.last_name = users.getLast_name();
+        this.first_name = users.getFirstName();
+        this.last_name = users.getLastName();
         this.gender = users.getGender();
         this.age = users.getAge();
         this.email = users.getEmail();
+        this.phone = users.getPhone();
         this.createdAt = users.getCreatedAt();
     }
     public static List<UsersResponseDto> toList(List<Users> users) {
